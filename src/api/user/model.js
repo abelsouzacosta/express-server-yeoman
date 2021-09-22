@@ -7,6 +7,15 @@ import { env } from '../../config'
 
 const roles = ['user', 'admin']
 
+const addressSchema = new Schema({
+  street: {
+    type: String
+  },
+  number: {
+    type: Number
+  }
+})
+
 const userSchema = new Schema({
   email: {
     type: String,
@@ -37,6 +46,14 @@ const userSchema = new Schema({
   picture: {
     type: String,
     trim: true
+  },
+  active: {
+    type: Boolean,
+    required: true,
+    default: true
+  },
+  address: {
+    type: addressSchema
   }
 }, {
   timestamps: true
@@ -73,7 +90,7 @@ userSchema.methods = {
     let fields = ['id', 'name', 'picture']
 
     if (full) {
-      fields = [...fields, 'email', 'createdAt']
+      fields = [...fields, 'email', 'createdAt', 'address']
     }
 
     fields.forEach((field) => { view[field] = this[field] })
